@@ -17,11 +17,21 @@ input EmployeeCreateInput {
   experience:Int!
 }
 
+input EmployeeUpdateInput {
+  name: String
+  email: String
+  role: [String]
+  skills: [String]
+  password: String
+}
+
 type Query {
   getEmployees: [Employee]
+  getEmployee(id: Int!): Employee
 }
 
 type Mutation {
   employeeSignup(input: EmployeeCreateInput!): Employee
+  updateEmployee(id: Int!, input: EmployeeUpdateInput): Employee
   deleteEmployee(id: Int!): Employee
 }

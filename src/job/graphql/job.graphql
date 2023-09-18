@@ -1,0 +1,68 @@
+scalar Date
+
+type Location{
+  address: String
+  country: String
+  city: String
+  state: String
+}
+
+type Job {
+  id: Int!
+  title: String!
+  description: String!
+  qualifications: [String]
+  requirements: [String]
+  skills: [String]
+  location: Location
+  info: JSON
+  experience: Int!
+  categoryId: Int!
+  type: String!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+input LocationInput{
+  address: String
+  country: String
+  city: String
+  state: String
+}
+
+input JobCreateInput {
+  title: String!
+  description: String!
+  requirements: [String]
+  qualifications: [String]
+  skills: [String]
+  location: LocationInput
+  categoryId: Int!
+  info: JSON
+  experience: Int!
+  type: String!
+}
+
+input JobUpdateInput {
+  title: String
+  description: String
+  requirements: [String]
+  qualifications: [String]
+  skills: [String]
+  location: LocationInput
+  categoryId: Int
+  info: JSON
+  experience: Int
+  type: String
+}
+
+type Query {
+  getJobs: [Job]
+  getJob(id: Int!): Job
+}
+
+type Mutation {
+  createJob(input: JobCreateInput!): Job
+  updateJob(id: Int!, input: JobUpdateInput!): Job
+  deleteJob(id: Int!): Job
+}

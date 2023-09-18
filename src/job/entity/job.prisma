@@ -1,0 +1,15 @@
+model Job {
+  id                Int         @id @default(autoincrement())
+  title             String
+  description       String
+  qualifications    String[]
+  requirements      String[]
+  skills            String[]
+  location          Json?
+  info              Json?
+  experience        Int
+  categoryId        Int
+  type              String
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime?   @updatedAt
+}

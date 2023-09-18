@@ -2,33 +2,33 @@ import { PrismaClient } from "@prisma/client";
 import { singleton } from "tsyringe";
 
 @singleton()
-export class EmployeeService {
+export class JobService {
     private prisma;
 
     constructor() {
         this.prisma = new PrismaClient();
     }
 
-    getAllEmployees() {
-        return this.prisma.employee.findMany();
+    getAllJobs () {
+        return this.prisma.job.findMany();
     }
 
-    getEmployeeById(id: number) {
-        return this.prisma.employee.findUnique({
+    getJobById (id: number) {
+        return this.prisma.job.findUnique({
             where: {
                 id
             }
         });
     }
 
-    createEmployee(input: CreateEmployeeDto) {
-        return this.prisma.employee.create({
+    createJob (input: CreateJobDto) {
+        return this.prisma.job.create({
             data: input
         });
     }
 
-    updateEmployee(id: number, input: UpdateEmployeeDto) {
-        return this.prisma.employee.update({
+    updateJob (id: number, input: UpdateJobDto) {
+        return this.prisma.job.update({
             where: {
                 id
             },
@@ -36,8 +36,8 @@ export class EmployeeService {
         })
     }
 
-    deleteEmployee(id: number) {
-        return this.prisma.employee.delete({
+    deleteJob (id: number) {
+        return this.prisma.job.delete({
             where: {
                 id
             }

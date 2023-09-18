@@ -8,14 +8,16 @@
 //
 
 model Candidate {
-  id             Int    @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   name           String
-  email          String @unique
+  email          String    @unique
   password       String
   phone          String
   age            Int
   info           Json?
   onboardingInfo Json?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime? @updatedAt
 }
 
 //
@@ -23,14 +25,40 @@ model Candidate {
 //
 
 model Employee {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   name       String
-  email      String   @unique
+  email      String    @unique
   password   String
   roles      String[]
   skills     String[]
   experience Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
 }
+
+//
+// job.prisma
+//
+
+model Job {
+  id             Int       @id @default(autoincrement())
+  title          String
+  description    String
+  qualifications String[]
+  requirements   String[]
+  skills         String[]
+  location       Json?
+  info           Json?
+  experience     Int
+  categoryId     Int
+  type           String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime? @updatedAt
+}
+
+//
+// schema.prisma
+//
 
 datasource db {
   provider = "postgresql"
