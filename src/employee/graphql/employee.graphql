@@ -22,5 +22,6 @@ type Query {
 }
 
 type Mutation {
-  employeeSignup(input: EmployeeCreateInput): Employee
+  employeeSignup(input: EmployeeCreateInput!): Employee
+  deleteEmployee(id: Int!): Employee
 }

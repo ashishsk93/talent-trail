@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
+import { singleton } from "tsyringe";
 
+@singleton()
 export class EmployeeService {
     private prisma;
 
@@ -16,4 +18,12 @@ export class EmployeeService {
             data: input
         });
     }
-} 
+
+    deleteEmployee(id: number) {
+        return this.prisma.employee.delete({
+            where: {
+                id
+            }
+        });
+    }
+}

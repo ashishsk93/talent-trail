@@ -1,8 +1,10 @@
+import { container } from "tsyringe";
 import { CandidateService } from "../service/candidate.service"
+
+const candidateService = container.resolve(CandidateService);
 
 const Query = {
     getCandidates: () => {
-        const candidateService = new CandidateService();
         return candidateService.getAllCandidates();
     }
 }

@@ -1,6 +1,6 @@
+import "reflect-metadata";
 import { Elysia } from 'elysia';
 import { yoga } from '@elysiajs/graphql-yoga';
-import { EmployeeService } from './employee/service/employee.service';
 const { loadFilesSync } = require('@graphql-tools/load-files');
 const path = require('path');
 
@@ -8,7 +8,6 @@ const typeDefs = loadFilesSync(path.join(import.meta.dir, '.'), { extensions: ['
 const resolvers = loadFilesSync(path.join(import.meta.dir, './**/*.resolver.*'), { recursive: true })
 
 const app = new Elysia({ prefix: "/talent-trail/api" })
-    .decorate('employeeService', new EmployeeService())
     .use(
         yoga({
             typeDefs,
