@@ -1,9 +1,15 @@
 # Elysia with Bun runtime
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
+## Generating the DB
+To generate the prisma client, run the following command
 ```bash
-bun create elysia ./elysia-example
+bun run prisma-build
+```
+
+## Running DB migration
+To run the db migration, run the following command
+```bash
+bun run run-migrations
 ```
 
 ## Development

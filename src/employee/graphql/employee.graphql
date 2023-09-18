@@ -1,0 +1,26 @@
+scalar JSON
+
+type Employee {
+  id: String!
+  name: String!
+  email: String!
+  roles: [String]!
+  skills: [String]
+}
+
+input EmployeeCreateInput {
+  name: String!
+  email: String!
+  roles: [String]!
+  password: String!
+  skills:[String!]
+  experience:Int!
+}
+
+type Query {
+  getEmployees: [Employee]
+}
+
+type Mutation {
+  employeeSignup(input: EmployeeCreateInput): Employee
+}

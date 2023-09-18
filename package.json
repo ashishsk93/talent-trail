@@ -3,13 +3,26 @@
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "prisma-generate": "prisma generate --schema=./src/prisma/schema.prisma",
+    "prisma-import": "prisma-import -s **/*.prisma -o ./src/prisma/schema.prisma --force",
+    "prisma-build": "bun run prisma-import && bun run prisma-generate",
+    "generate-migrations": "npx prisma migrate dev --schema src/prisma/schema.prisma --name",
+    "run-migrations": "npx prisma migrate deploy --schema ./src/prisma/schema.prisma",
+    "create-migration": "npx prisma migrate dev --create-only --name"
   },
   "dependencies": {
+    "@elysiajs/graphql-yoga": "^0.6.3",
+    "@graphql-tools/load-files": "^7.0.0",
+    "@graphql-tools/merge": "^9.0.0",
+    "@graphql-tools/schema": "^10.0.0",
+    "@prisma/client": "5.3.1",
     "elysia": "latest"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "prisma": "^5.3.1",
+    "prisma-import": "^1.0.4"
   },
   "module": "src/index.js"
 }

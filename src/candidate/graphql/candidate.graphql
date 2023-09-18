@@ -1,0 +1,16 @@
+scalar JSON
+
+type Candidate {
+  id: Int!
+  name: String!
+  email: String!
+  password: String!
+  phone: String!
+  age: Int!
+  info: JSON
+  onboardingInfo: JSON
+}
+
+type Query {
+  getCandidates: [Candidate]
+}
