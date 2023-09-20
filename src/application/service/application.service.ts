@@ -1,15 +1,15 @@
-import { Application, PrismaClient } from "@prisma/client";
-import { ApplicationEventListeners } from "../events/application.event.listeners";
+import { Application, Prisma, PrismaClient } from "@prisma/client";
+import { ApplicationEventHandler } from "../events/application.event";
 import Container, { Service } from "typedi";
 import { ApplicationEvents } from "../constants/application.events";
 
 @Service({ global: true })
 export class ApplicationService {
-    private prisma;
-    private eventEmitter: ApplicationEventListeners;
+    private prisma: PrismaClient;
+    private eventEmitter: ApplicationEventHandler;
     constructor(){
-        this.prisma = new PrismaClient();
-        this.eventEmitter = Container.get(ApplicationEventListeners);
+        this.prisma = Container.get('prisma');
+        this.eventEmitter = Container.get(ApplicationEventHandler);
     }
 
     getAllApplications(): Promise<Application[]> {

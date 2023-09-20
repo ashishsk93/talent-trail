@@ -1,12 +1,12 @@
 import { ApplicationTimeline, PrismaClient } from "@prisma/client";
-import { Service } from "typedi";
+import Container, { Service } from "typedi";
 
 @Service({ global: true })
 export class TimelineService {
-    private prisma;
+    private prisma: PrismaClient;
 
     constructor(){
-        this.prisma = new PrismaClient();
+        this.prisma = Container.get('prisma');
     }
 
     getTimelineByApplicationId(applicationId: number): Promise<ApplicationTimeline[]> {
