@@ -1,3 +1,5 @@
+import { Application } from "../../application/entity/application"
+
 model Candidate {
   id                Int         @id @default(autoincrement())
   name              String
@@ -9,4 +11,5 @@ model Candidate {
   onboardingInfo    Json?
   createdAt         DateTime    @default(now())
   updatedAt         DateTime?   @updatedAt
+  applications      Application[]
 }

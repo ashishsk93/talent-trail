@@ -1,3 +1,7 @@
+import { Category } from "category"
+import { Application } from "../../application/entity/application"
+
+
 model Job {
   id                Int         @id @default(autoincrement())
   title             String
@@ -8,8 +12,12 @@ model Job {
   location          Json?
   info              Json?
   experience        Int
+  category          Category    @relation(fields: [categoryId], references: [id])
   categoryId        Int
   type              String
   createdAt         DateTime    @default(now())
   updatedAt         DateTime?   @updatedAt
+  applications      Application[]
+
+  @@index([categoryId])
 }

@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { singleton } from "tsyringe";
+import { Service } from "typedi";
 
-@singleton()
+@Service({ global: true })
 export class JobService {
     private prisma;
 

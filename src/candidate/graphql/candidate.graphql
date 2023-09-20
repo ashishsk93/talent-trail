@@ -11,6 +11,28 @@ type Candidate {
   onboardingInfo: JSON
 }
 
+input CandidateCreateInput {
+  name: String!
+  age: Int!
+  email: String!
+  phone: String!
+  password: String!
+}
+
+input CandidateUpdateInput {
+  name: String
+  age: Int
+  email: String
+  phone: String
+  password: String
+}
+
 type Query {
   getCandidates: [Candidate]
+}
+
+type Mutation {
+  candidateSignUp(input: CandidateCreateInput): Candidate
+  updateCandidate(id: Int!, input: CandidateUpdateInput): Candidate
+  deleteCandidate(id: Int!): Candidate
 }

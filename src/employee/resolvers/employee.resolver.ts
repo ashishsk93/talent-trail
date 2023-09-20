@@ -1,7 +1,7 @@
-import { container } from "tsyringe";
+import { Container } from "typedi";
 import { EmployeeService } from "../service/employee.service";
 
-const employeeService = container.resolve(EmployeeService);
+const employeeService = Container.get(EmployeeService);
 
 const Query = {
     getEmployees: () => {

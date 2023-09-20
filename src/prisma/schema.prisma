@@ -4,20 +4,75 @@
 //
 
 //
+// schema.prisma
+//
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+//
+// application.prisma
+//
+
+model Application {
+  id           Int                   @id @default(autoincrement())
+  candidate    Candidate             @relation(fields: [candidateId], references: [id])
+  candidateId  Int
+  job          Job                   @relation(fields: [jobId], references: [id])
+  jobId        Int
+  referredBy   Employee?             @relation(fields: [referredById], references: [id])
+  referredById Int?
+  status       String
+  appliedDate  DateTime              @default(now())
+  score        Int?
+  timeline     ApplicationTimeline[]
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime?             @updatedAt
+
+  @@index([candidateId])
+  @@index([jobId])
+  @@index([referredById])
+}
+
+//
+// application.timeline.prisma
+//
+
+model ApplicationTimeline {
+  applicationId Int
+  application   Application @relation(fields: [applicationId], references: [id])
+  event         String
+  status        String
+  data          Json?
+  when          DateTime
+
+  @@id([applicationId, event])
+  @@index([applicationId])
+}
+
+//
 // candidate.prisma
 //
 
 model Candidate {
-  id             Int       @id @default(autoincrement())
+  id             Int           @id @default(autoincrement())
   name           String
-  email          String    @unique
+  email          String        @unique
   password       String
   phone          String
   age            Int
   info           Json?
   onboardingInfo Json?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime? @updatedAt
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime?     @updatedAt
+  applications   Application[]
 }
 
 //
@@ -25,15 +80,28 @@ model Candidate {
 //
 
 model Employee {
-  id         Int       @id @default(autoincrement())
+  id         Int           @id @default(autoincrement())
   name       String
-  email      String    @unique
+  email      String        @unique
   password   String
   roles      String[]
   skills     String[]
   experience Int
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime? @updatedAt
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime?     @updatedAt
+  referrals  Application[]
+}
+
+//
+// category.prisma
+//
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  jobs      Job[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 //
@@ -41,7 +109,7 @@ model Employee {
 //
 
 model Job {
-  id             Int       @id @default(autoincrement())
+  id             Int           @id @default(autoincrement())
   title          String
   description    String
   qualifications String[]
@@ -50,22 +118,12 @@ model Job {
   location       Json?
   info           Json?
   experience     Int
+  category       Category      @relation(fields: [categoryId], references: [id])
   categoryId     Int
   type           String
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime? @updatedAt
-}
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime?     @updatedAt
+  applications   Application[]
 
-//
-// schema.prisma
-//
-
-datasource db {
-  provider      = "postgresql"
-  url           = env("DATABASE_URL")
-  relationMode  = "prisma"
-}
-
-generator client {
-  provider = "prisma-client-js"
+  @@index([categoryId])
 }

@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { singleton } from "tsyringe";
+import { Service } from "typedi";
 
-@singleton()
+@Service({ global: true })
 export class CandidateService {
     private prisma;
 
@@ -9,7 +9,30 @@ export class CandidateService {
         this.prisma = new PrismaClient();
     }
 
-    async getAllCandidates() {
+    getAllCandidates() {
         return this.prisma.candidate.findMany();
+    }
+
+    createCandidate(input: CandidateCreateDto) {
+        return this.prisma.candidate.create({
+            data: input,
+        });
+    }
+
+    updateCandidate(id: number, input: CandidateUpdateDto) {
+        return this.prisma.candidate.update({
+            where: {
+                id,
+            },
+            data: input
+        });
+    }
+
+    deleteCandidate(id: number) {
+        return this.prisma.candidate.delete({
+            where: {
+                id
+            }
+        });
     }
 } 
