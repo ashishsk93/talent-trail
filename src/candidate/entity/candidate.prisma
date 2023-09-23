@@ -1,15 +1,15 @@
 import { Application } from "../../application/entity/application"
 
 model Candidate {
-  id                Int         @id @default(autoincrement())
-  name              String
-  email             String      @unique
-  password          String
-  phone             String
-  age               Int
-  info              Json?
-  onboardingInfo    Json?
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime?   @updatedAt
-  applications      Application[]
+  id             Int           @id @default(autoincrement())
+  name           String
+  email          String        @unique
+  password       String
+  phone          String
+  age            Int
+  info           Json?
+  onboardingInfo Json?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime?     @updatedAt
+  applications   Application[]
 }

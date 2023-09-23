@@ -13,8 +13,8 @@ input EmployeeCreateInput {
   email: String!
   roles: [String]!
   password: String!
-  skills:[String!]
-  experience:Int!
+  skills: [String!]
+  experience: Int!
 }
 
 input EmployeeUpdateInput {

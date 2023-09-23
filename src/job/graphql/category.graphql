@@ -1,18 +1,18 @@
 type Category {
-    id: Int!
-    name: String!
+  id: Int!
+  name: String!
 }
 
 input CategoryInput {
-    name: String!
+  name: String!
 }
 
 type Query {
-    getAllCategories: [Category]
+  getAllCategories: [Category]
 }
 
 type Mutation {
-    createCategory(input: CategoryInput!): Category
-    deleteCategory(id: Int!): Category
-    updateCategory(id: Int!, input: CategoryInput!): Category
+  createCategory(input: CategoryInput!): Category
+  deleteCategory(id: Int!): Category
+  updateCategory(id: Int!, input: CategoryInput!): Category
 }

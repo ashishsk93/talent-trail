@@ -1,9 +1,10 @@
 import { Job } from "job"
 
 model Category {
-    id          Int         @id @default(autoincrement())
-    name        String      @unique
-    jobs        Job[]
-    createdAt   DateTime    @default(now())
-    updatedAt   DateTime?   @updatedAt
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  jobs      Job[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }
+

@@ -4,21 +4,23 @@ import { Job } from "../../job/entity/job"
 import { ApplicationTimeline } from "application.timeline"
 
 model Application {
-    id              Int         @id @default(autoincrement())
-    candidate       Candidate   @relation(fields: [candidateId], references: [id])
-    candidateId     Int
-    job             Job         @relation(fields: [jobId], references: [id])
-    jobId           Int
-    referredBy      Employee?   @relation(fields: [referredById], references: [id])
-    referredById    Int?
-    status          String
-    appliedDate     DateTime    @default(now())
-    score           Int?
-    timeline        ApplicationTimeline[]
-    createdAt       DateTime    @default(now())
-    updatedAt       DateTime?   @updatedAt
+  id           Int                   @id @default(autoincrement())
+  candidate    Candidate             @relation(fields: [candidateId], references: [id])
+  candidateId  Int
+  job          Job                   @relation(fields: [jobId], references: [id])
+  jobId        Int
+  referredBy   Employee?             @relation(fields: [referredById], references: [id])
+  referredById Int?
+  status       String
+  appliedDate  DateTime              @default(now())
+  score        Int?
+  timeline     ApplicationTimeline[]
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime?             @updatedAt
 
-    @@index([candidateId])
-    @@index([jobId])
-    @@index([referredById])
+  @@index([candidateId])
+  @@index([jobId])
+  @@index([referredById])
 }
+
+

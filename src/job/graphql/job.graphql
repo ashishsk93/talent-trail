@@ -1,6 +1,6 @@
 scalar Date
 
-type Location{
+type Location {
   address: String
   country: String
   city: String
@@ -23,7 +23,7 @@ type Job {
   updatedAt: Date!
 }
 
-input LocationInput{
+input LocationInput {
   address: String
   country: String
   city: String

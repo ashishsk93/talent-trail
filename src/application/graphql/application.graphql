@@ -1,23 +1,23 @@
 type Timeline {
-    applicationId: Int!
-    event: String!
-    status: String!
-    data: JSON
-    when: Date
+  applicationId: Int!
+  event: String!
+  status: String!
+  data: JSON
+  when: Date
 }
 
 type Application {
-    id: Int!
-    candidateId: Int!
-    jobId: Int!
-    referredById: String
-    status: String!
-    appliedDate: Date
-    candidate: Candidate!
-    referredBy: Employee
-    job: Job
-    timeline: [Timeline]
-    score: Int
+  id: Int!
+  candidateId: Int!
+  jobId: Int!
+  referredById: String
+  status: String!
+  appliedDate: Date
+  candidate: Candidate!
+  referredBy: Employee
+  job: Job
+  timeline: [Timeline]
+  score: Int
 }
 
 input CreateApplicationInput {
@@ -26,9 +26,9 @@ input CreateApplicationInput {
 }
 
 type Query {
-    getApplications: [Application]
+  getApplications: [Application]
 }
 
 type Mutation {
-    createApplication(input: CreateApplicationInput!): Application
+  createApplication(input: CreateApplicationInput!): Application
 }

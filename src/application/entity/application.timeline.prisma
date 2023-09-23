@@ -1,12 +1,12 @@
 import { Application } from "application"
 
 model ApplicationTimeline {
-    applicationId       Int
-    application         Application @relation(fields: [applicationId], references: [id])
-    event               String
-    status              String
-    data                Json?
-    when                DateTime
+    applicationId Int
+    application   Application @relation(fields: [applicationId], references: [id])
+    event         String
+    status        String
+    data          Json?
+    when          DateTime
 
     @@id([applicationId, event])
     @@index([applicationId])

@@ -1,14 +1,14 @@
 import { Application } from "../../application/entity/application"
 
 model Employee {
-  id                Int         @id @default(autoincrement())
-  name              String
-  email             String      @unique
-  password          String
-  roles             String[]
-  skills            String[]
-  experience        Int
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime?   @updatedAt
-  referrals         Application[]
+  id         Int           @id @default(autoincrement())
+  name       String
+  email      String        @unique
+  password   String
+  roles      String[]
+  skills     String[]
+  experience Int
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime?     @updatedAt
+  referrals  Application[]
 }

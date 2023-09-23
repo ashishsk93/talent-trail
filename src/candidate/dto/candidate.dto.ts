@@ -7,9 +7,9 @@ interface CandidateCreateDto {
 }
 
 interface CandidateUpdateDto {
-    name?: string;
-    age?: number;
-    email?: string;
-    phone?: string;
-    password?: string;
-  }
+  name?: string;
+  age?: number;
+  email?: string;
+  phone?: string;
+  password?: string;
+}
