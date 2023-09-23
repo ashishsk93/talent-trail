@@ -1,0 +1,4 @@
+export enum CandidateEvents {
+  ACCEPTED = "CANDIDATE_ACCEPTED",
+  REJECTED = "CANDIDATE_REJECTED",
+}

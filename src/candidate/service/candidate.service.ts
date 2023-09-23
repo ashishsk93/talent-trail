@@ -1,12 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import Container, { Service } from "typedi";
+import { CandidateEventHandler } from "../events/candidate.event";
 
 @Service({ global: true })
 export class CandidateService {
   private prisma: PrismaClient;
 
-  constructor() {
-    this.prisma = Container.get("prisma");
+  constructor(private eventHandler: CandidateEventHandler) {
+    this.prisma = Container.get("prismaClient");
+    this.eventHandler = Container.get(CandidateEventHandler);
   }
 
   getAllCandidates() {

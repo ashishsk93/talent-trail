@@ -6,7 +6,7 @@ export class JobService {
   private prisma: PrismaClient;
 
   constructor() {
-    this.prisma = Container.get("prisma");
+    this.prisma = Container.get("prismaClient");
   }
 
   getAllJobs() {

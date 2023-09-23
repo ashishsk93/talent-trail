@@ -2,6 +2,7 @@ import Container from "typedi";
 import { ApplicationService } from "../service/application.service";
 import { Status } from "../constants/application.constants";
 import { TimelineService } from "../service/timeline.service";
+import { ApplicationCreateDto, SubmitReviewDto } from "../dto/application.dto";
 
 const applicationService = Container.get(ApplicationService);
 const timelineService = Container.get(TimelineService);
@@ -28,6 +29,21 @@ const Mutation = {
   ) => {
     args.input.status = Status.APPLIED;
     const application = await applicationService.createApplication(args.input);
+    return {
+      ...application,
+      timeline() {
+        return timelineService.getTimelineByApplicationId(application.id);
+      },
+    };
+  },
+  submitReview: async (
+    parent: unknown,
+    args: { id: number; input: SubmitReviewDto }
+  ) => {
+    const application = await applicationService.submitReview(
+      args.id,
+      args.input
+    );
     return {
       ...application,
       timeline() {

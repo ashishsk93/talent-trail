@@ -20,9 +20,18 @@ type Application {
   score: Int
 }
 
+enum Verdict {
+  ACCEPTED
+  REJECTED
+}
+
 input CreateApplicationInput {
   candidateId: Int!
   jobId: Int!
+}
+
+input SubmitReviewInput {
+  verdict: Verdict!
 }
 
 type Query {
@@ -31,4 +40,5 @@ type Query {
 
 type Mutation {
   createApplication(input: CreateApplicationInput!): Application
+  submitReview(id: Int!, input: SubmitReviewInput!): Application
 }

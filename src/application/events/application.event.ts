@@ -1,83 +1,67 @@
-import { PrismaClient } from "@prisma/client";
-import { ApplicationEvents } from "../constants/application.events";
-import { Service } from "typedi";
-import { EventStatus, Status } from "../constants/application.constants";
-const EventEmitter = require("events");
+import Container, { Service } from "typedi";
+import {
+  ApplicationEvents,
+  EventStatus,
+  Status,
+} from "../constants/application.constants";
+import { TimelineService } from "../service/timeline.service";
+import { CandidateEvents } from "../../candidate/constants/candidate.constants";
 
 @Service({ global: true })
 export class ApplicationEventHandler {
-  private applicationEventEmitter;
-  private prisma;
+  constructor(
+    private timelineService: TimelineService,
+    private eventEmitter: any
+  ) {
+    const applicationEventEmitter = Container.get("eventEmitter") as any;
+    this.timelineService = Container.get(TimelineService);
+    this.eventEmitter = Container.get("eventEmitter");
 
-  constructor() {
-    this.applicationEventEmitter = new EventEmitter();
-    this.prisma = new PrismaClient();
+    applicationEventEmitter.on(ApplicationEvents.APPLIED, async (data: any) => {
+      await this.timelineService.createTimeline({
+        applicationId: data.id,
+        event: ApplicationEvents.APPLIED,
+        status: EventStatus.COMPLETED,
+        when: new Date(),
+      });
+      await this.timelineService.createTimeline({
+        applicationId: data.id,
+        event: ApplicationEvents.HR_REVIEW,
+        status: EventStatus.PENDING,
+        when: new Date(),
+      });
+    });
 
-    this.applicationEventEmitter.on(
-      ApplicationEvents.APPLIED,
-      async (data: any) => {
-        await this.prisma.applicationTimeline.create({
-          data: {
-            applicationId: data.id,
-            event: ApplicationEvents.APPLIED,
-            status: EventStatus.COMPLETED,
-            when: new Date(),
-          },
-        });
-        await this.prisma.applicationTimeline.create({
-          data: {
-            applicationId: data.id,
-            event: ApplicationEvents.HR_REVIEW,
-            status: EventStatus.PENDING,
-            when: new Date(),
-          },
-        });
-      }
-    );
-
-    this.applicationEventEmitter.on(
+    applicationEventEmitter.on(
       ApplicationEvents.HR_REVIEW,
       async (data: any) => {
         if (data.status === Status.HR_ACCEPTED) {
-          await this.prisma.applicationTimeline.update({
-            where: {
-              applicationId_event: {
-                applicationId: data.id,
-                event: ApplicationEvents.HR_REVIEW,
-              },
-            },
-            data: {
-              status: EventStatus.ACCEPETED,
+          await this.timelineService.updateTimeline(
+            data.id,
+            ApplicationEvents.HR_REVIEW,
+            {
+              status: EventStatus.ACCEPTED,
               when: new Date(),
-            },
-          });
-        } else if (data.status === Status.HR_REJECTED) {
-          await this.prisma.applicationTimeline.update({
-            where: {
-              applicationId_event: {
-                applicationId: data.id,
-                event: ApplicationEvents.HR_REVIEW,
-              },
-            },
-            data: {
-              status: EventStatus.REJECTED,
-              when: new Date(),
-            },
-          });
-        }
-        await this.prisma.applicationTimeline.create({
-          data: {
+            }
+          );
+          await this.timelineService.createTimeline({
             applicationId: data.id,
             event: ApplicationEvents.TIMESLOT_SUBMISSION,
             status: EventStatus.PENDING,
             when: new Date(),
-          },
-        });
+          });
+        } else if (data.status === Status.HR_REJECTED) {
+          await this.timelineService.updateTimeline(
+            data.id,
+            ApplicationEvents.HR_REVIEW,
+            {
+              status: EventStatus.REJECTED,
+              when: new Date(),
+            }
+          );
+          this.eventEmitter.emit(CandidateEvents.REJECTED);
+        }
       }
     );
-  }
-
-  raiseEvent(event: string, payload?: any) {
-    this.applicationEventEmitter.emit(event, payload);
   }
 }

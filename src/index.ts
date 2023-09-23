@@ -5,9 +5,12 @@ import { PrismaClient } from "@prisma/client";
 import Container from "typedi";
 const { loadFilesSync } = require("@graphql-tools/load-files");
 const path = require("path");
+const EventEmitter = require("events");
 
 const prisma = new PrismaClient();
-Container.set("prisma", prisma);
+Container.set("prismaClient", prisma);
+const eventEmitter = new EventEmitter();
+Container.set("eventEmitter", eventEmitter);
 
 const typeDefs = loadFilesSync(path.join(import.meta.dir, "."), {
   extensions: ["graphql"],
